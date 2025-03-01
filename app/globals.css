@@ -1,0 +1,247 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    /* Primary: Deep Teal Blue (#084C61) */
+    --primary: 197 85% 20%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary: Lighter Teal */
+    --secondary: 197 85% 30%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Accent: Soft Teal */
+    --accent: 197 85% 95%;
+    --accent-foreground: 197 85% 15%;
+
+    /* Muted: Light Teal Tint */
+    --muted: 197 25% 96%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    /* Card and Popover */
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    /* Border and Input */
+    --border: 197 25% 92%;
+    --input: 197 25% 92%;
+
+    /* Ring */
+    --ring: 197 85% 20%;
+
+    /* Destructive */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Radius */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    /* Primary: Deep Teal Blue for dark mode */
+    --primary: 197 85% 40%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary: Lighter Teal for dark mode */
+    --secondary: 197 85% 50%;
+    --secondary-foreground: 197 85% 15%;
+
+    /* Accent: Deep Teal for dark mode */
+    --accent: 197 85% 15%;
+    --accent-foreground: 197 85% 90%;
+
+    /* Muted: Deep Teal Tint */
+    --muted: 197 25% 15%;
+    --muted-foreground: 240 5% 64.9%;
+
+    /* Card and Popover */
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Border and Input */
+    --border: 197 25% 15%;
+    --input: 197 25% 15%;
+
+    /* Ring */
+    --ring: 197 85% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Subtle hero pattern */
+.hero-pattern {
+  background-color: #ffffff;
+  background-image: radial-gradient(at 20% 25%, hsl(197, 85%, 20%, 0.05) 0px, transparent 50%),
+    radial-gradient(at 80% 75%, hsl(197, 85%, 20%, 0.05) 0px, transparent 50%);
+  position: relative;
+}
+
+/* Refined gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, hsl(197, 85%, 20%) 0%, hsl(197, 85%, 30%) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-bg::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.08) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gradient-bg:hover::before {
+  opacity: 1;
+}
+
+/* Professional glass effect */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(8, 76, 97, 0.08);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/* Subtle card hover effects */
+.hover-card {
+  transition: all 0.2s ease;
+  border: 1px solid hsl(var(--border));
+}
+
+.hover-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -2px rgba(8, 76, 97, 0.1);
+  border-color: hsl(var(--primary) / 0.5);
+}
+
+/* Clean feature card */
+.feature-card {
+  background: white;
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 0 4px 12px -2px rgba(8, 76, 97, 0.1);
+}
+
+/* Professional button styles */
+.button-gradient {
+  background: linear-gradient(to right, hsl(197, 85%, 20%) 0%, hsl(197, 85%, 30%) 100%);
+  transition: all 0.2s ease;
+}
+
+.button-gradient:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+/* Clean stats card */
+.stats-card {
+  background: white;
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease;
+}
+
+.stats-card:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -2px rgba(8, 76, 97, 0.1);
+}
+
+/* Refined chat message */
+.chat-message {
+  transition: transform 0.2s ease;
+}
+
+.chat-message.assistant {
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+}
+
+.chat-message.user {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+/* Professional badge */
+.badge-subtle {
+  background: hsl(var(--muted));
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--primary));
+}
+
+/* Clean input styles */
+.input-clean {
+  border: 1px solid hsl(var(--border));
+  transition: all 0.2s ease;
+}
+
+.input-clean:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.1);
+}
+
+/* Section styling */
+.section-subtle {
+  background: linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
+}
+
+/* Animations */
+@keyframes progressBar {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 85%;
+  }
+}
+
+@keyframes animate-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% auto;
+  animation: animate-gradient 8s ease infinite;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  @apply bg-gradient-to-r from-primary via-primary to-primary bg-clip-text text-transparent;
+}
+
