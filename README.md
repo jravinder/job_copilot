@@ -1,10 +1,3 @@
-### **📌 Job CoPilot – README.md (GitHub)**  
-
-Below is a **fully structured README** for your **Job CoPilot** repository. This ensures that **hackathon judges, contributors, and potential users** understand your project **at a glance**.  
-
----
-
-
 # 🚀 Job CoPilot – AI-Powered Job Search Assistant  
 
 **Job CoPilot** is an **AI-driven career assistant** that helps job seekers analyze **resume-job fit**, generate **tailored resumes, cover letters, and outreach emails**, and provide **actionable career insights** to land their dream job faster.  
