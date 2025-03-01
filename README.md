@@ -2,7 +2,7 @@
 
 **Job CoPilot** is an **AI-driven career assistant** that helps job seekers analyze **resume-job fit**, generate **tailored resumes, cover letters, and outreach emails**, and provide **actionable career insights** to land their dream job faster.  
 
-🔗 **Live Demo:** [Try Job CoPilot Now](https://v0-job-match-ai-coach-jcdsqg.vercel.app/) 
+🔗 **Live Demo:** [Try Job CoPilot Now](https://job-copilot.vercel.app/) 
 🛠️ **Tech Stack:** Vercel v0, Groq AI (Llama-3.3-70b), LinkedIn API  
 
 ---
