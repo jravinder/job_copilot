@@ -5,77 +5,64 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222.2 84% 4.9%;
 
-    /* Primary: Deep Teal Blue (#084C61) */
-    --primary: 197 85% 20%;
-    --primary-foreground: 0 0% 98%;
-
-    /* Secondary: Lighter Teal */
-    --secondary: 197 85% 30%;
-    --secondary-foreground: 0 0% 98%;
-
-    /* Accent: Soft Teal */
-    --accent: 197 85% 95%;
-    --accent-foreground: 197 85% 15%;
-
-    /* Muted: Light Teal Tint */
-    --muted: 197 25% 96%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    /* Card and Popover */
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222.2 84% 4.9%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    /* Border and Input */
-    --border: 197 25% 92%;
-    --input: 197 25% 92%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
 
-    /* Ring */
-    --ring: 197 85% 20%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
 
-    /* Destructive */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    /* Radius */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
 
-    /* Primary: Deep Teal Blue for dark mode */
-    --primary: 197 85% 40%;
-    --primary-foreground: 0 0% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
 
-    /* Secondary: Lighter Teal for dark mode */
-    --secondary: 197 85% 50%;
-    --secondary-foreground: 197 85% 15%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Accent: Deep Teal for dark mode */
-    --accent: 197 85% 15%;
-    --accent-foreground: 197 85% 90%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
-    /* Muted: Deep Teal Tint */
-    --muted: 197 25% 15%;
-    --muted-foreground: 240 5% 64.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
 
-    /* Card and Popover */
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
 
-    /* Border and Input */
-    --border: 197 25% 15%;
-    --input: 197 25% 15%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
 
-    /* Ring */
-    --ring: 197 85% 40%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
   }
 }
 
@@ -88,142 +75,30 @@
   }
 }
 
-/* Subtle hero pattern */
-.hero-pattern {
-  background-color: #ffffff;
-  background-image: radial-gradient(at 20% 25%, hsl(197, 85%, 20%, 0.05) 0px, transparent 50%),
-    radial-gradient(at 80% 75%, hsl(197, 85%, 20%, 0.05) 0px, transparent 50%);
-  position: relative;
+/* Brand-specific utility classes */
+.brand-gradient {
+  @apply bg-gradient-to-r from-primary to-secondary;
 }
 
-/* Refined gradient backgrounds */
-.gradient-bg {
-  background: linear-gradient(135deg, hsl(197, 85%, 20%) 0%, hsl(197, 85%, 30%) 100%);
-  position: relative;
-  overflow: hidden;
+.brand-gradient-text {
+  @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
 }
 
-.gradient-bg::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.08) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+.brand-shadow {
+  @apply shadow-lg shadow-primary/10;
 }
 
-.gradient-bg:hover::before {
-  opacity: 1;
+.brand-border {
+  @apply border-primary/10;
 }
 
-/* Professional glass effect */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(8, 76, 97, 0.08);
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+/* Animation utilities */
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 8s linear infinite;
 }
 
-/* Subtle card hover effects */
-.hover-card {
-  transition: all 0.2s ease;
-  border: 1px solid hsl(var(--border));
-}
-
-.hover-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px -2px rgba(8, 76, 97, 0.1);
-  border-color: hsl(var(--primary) / 0.5);
-}
-
-/* Clean feature card */
-.feature-card {
-  background: white;
-  border: 1px solid hsl(var(--border));
-  transition: all 0.2s ease;
-}
-
-.feature-card:hover {
-  border-color: hsl(var(--primary) / 0.5);
-  box-shadow: 0 4px 12px -2px rgba(8, 76, 97, 0.1);
-}
-
-/* Professional button styles */
-.button-gradient {
-  background: linear-gradient(to right, hsl(197, 85%, 20%) 0%, hsl(197, 85%, 30%) 100%);
-  transition: all 0.2s ease;
-}
-
-.button-gradient:hover {
-  opacity: 0.95;
-  transform: translateY(-1px);
-}
-
-/* Clean stats card */
-.stats-card {
-  background: white;
-  border: 1px solid hsl(var(--border));
-  transition: all 0.2s ease;
-}
-
-.stats-card:hover {
-  border-color: hsl(var(--primary) / 0.5);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px -2px rgba(8, 76, 97, 0.1);
-}
-
-/* Refined chat message */
-.chat-message {
-  transition: transform 0.2s ease;
-}
-
-.chat-message.assistant {
-  background: hsl(var(--muted));
-  border: 1px solid hsl(var(--border));
-}
-
-.chat-message.user {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-}
-
-/* Professional badge */
-.badge-subtle {
-  background: hsl(var(--muted));
-  border: 1px solid hsl(var(--border));
-  color: hsl(var(--primary));
-}
-
-/* Clean input styles */
-.input-clean {
-  border: 1px solid hsl(var(--border));
-  transition: all 0.2s ease;
-}
-
-.input-clean:focus {
-  border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.1);
-}
-
-/* Section styling */
-.section-subtle {
-  background: linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
-}
-
-/* Animations */
-@keyframes progressBar {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 85%;
-  }
-}
-
-@keyframes animate-gradient {
+@keyframes gradient {
   0% {
     background-position: 0% 50%;
   }
@@ -235,13 +110,365 @@
   }
 }
 
-.animate-gradient {
-  background-size: 200% auto;
-  animation: animate-gradient 8s ease infinite;
+/* Card hover effects */
+.hover-card {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10;
 }
 
-/* Gradient text effect */
-.gradient-text {
-  @apply bg-gradient-to-r from-primary via-primary to-primary bg-clip-text text-transparent;
+/* Button styles */
+.button-gradient {
+  @apply bg-gradient-to-r from-primary to-secondary hover:opacity-90 transition-opacity;
 }
 
+/* Section styling */
+.section-gradient {
+  @apply bg-gradient-to-b from-background to-accent/10;
+}
+
+/* Hero pattern */
+.hero-pattern {
+  background-image: radial-gradient(circle at 20% 25%, var(--primary-rgb, rgb(37, 99, 235)) 0%, transparent 50%);
+}
+
+/* Add these custom utility classes for the analysis page */
+.analysis-container {
+  min-height: 500px;
+  position: relative;
+  transition: min-height 0.3s ease-in-out;
+}
+
+.analysis-container.analyzing {
+  min-height: 600px;
+}
+
+/* Prevent layout shifts during transitions */
+#analysis-section {
+  transition: height 0.5s ease-out, opacity 0.3s ease-in-out;
+  will-change: height, opacity;
+  min-height: 500px; /* Modified from 600px */
+  display: flex;
+  flex-direction: column;
+}
+
+#analysis-section.analyzing {
+  min-height: 650px;
+}
+
+#analysis-section .card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Smooth transitions for analysis states */
+.analysis-transition-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.analysis-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.analysis-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.analysis-transition-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Ensure content doesn't overflow during transitions */
+.overflow-hidden-during-transition {
+  overflow: hidden;
+}
+
+/* Improve button transitions */
+.button-content-swap {
+  position: relative;
+  overflow: hidden;
+}
+
+.button-content-swap > span {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Ensure progress bar transitions smoothly */
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+/* Prevent content jumping during loading states */
+.content-placeholder {
+  min-height: 24px;
+}
+
+/* Responsive adjustments to prevent layout issues on small screens */
+@media (max-width: 768px) {
+  #analysis-section {
+    min-height: 550px;
+  }
+
+  #analysis-section.analyzing {
+    min-height: 600px;
+  }
+}
+
+@media (max-width: 640px) {
+  .analysis-container {
+    min-height: 400px;
+  }
+
+  .analysis-container.analyzing {
+    min-height: 500px;
+  }
+
+  #analysis-section {
+    min-height: 500px;
+  }
+
+  #analysis-section.analyzing {
+    min-height: 550px;
+  }
+}
+
+/* Ensure consistent spacing in all states */
+.fixed-spacing {
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* Enhanced layout stability utilities */
+.dimension-lock {
+  transition: none !important;
+  will-change: auto !important;
+  overflow: hidden !important;
+}
+
+.resize-lock {
+  transition: none !important;
+  overflow: hidden !important;
+}
+
+/* Ensure content maintains position during transitions */
+.absolute-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Prevent FOUC and layout shifts during page load */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Improved progress bar transitions */
+.progress-bar-container {
+  position: relative;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: hsl(var(--muted));
+}
+
+.progress-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: hsl(var(--primary));
+  transition: width 0.3s ease-in-out;
+}
+
+/* Prevent content jumping during state transitions */
+.content-height-lock {
+  min-height: 24px;
+}
+
+/* Animation sequence for analysis section */
+@keyframes pulse-fade {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Ensure smooth height transitions */
+.analyzing {
+  transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Prevent layout shifts during analysis */
+.analyzing-content {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Add these specific styles for the analysis in progress state */
+.analyzing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.analysis-step {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.analysis-step-active {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.analysis-step-completed {
+  color: #10b981;
+}
+
+.analysis-progress-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Improved transition utilities */
+.transition-height {
+  transition-property: height;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 500ms;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Ensure consistent button sizes during state changes */
+.fixed-size-button {
+  min-width: 120px;
+  min-height: 40px;
+}
+
+/* Prevent layout shifts during loading */
+.loading-container {
+  position: relative;
+  min-height: 24px;
+}
+
+/* Ensure consistent spacing in grid layouts */
+.grid-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 500px;
+}
+
+/* Ensure consistent card heights */
+.card-fixed-height {
+  min-height: 600px;
+}
+
+/* Fix for step 3 alignment issues */
+.timeline-container {
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.timeline-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e5e7eb;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.timeline-progress {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 2px;
+  background-color: #2563eb;
+  transform: translateY(-50%);
+  z-index: 1;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Ensure consistent button sizes */
+.action-button {
+  min-width: 120px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fix for progress indicator */
+.step-indicator {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  border: 2px solid;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Fix for step labels */
+.step-label {
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Fix for the analysis buttons */
+.analysis-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+/* Ensure consistent width for the analysis content */
+.analysis-content {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}

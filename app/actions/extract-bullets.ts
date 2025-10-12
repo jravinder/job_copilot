@@ -124,4 +124,3 @@ function ensureArray(value: unknown): string[] {
   }
   return []
 }
-

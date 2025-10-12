@@ -160,4 +160,3 @@ export function JobMatches({ jobDescription }: JobMatchesProps) {
     </div>
   )
 }
-

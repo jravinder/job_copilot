@@ -522,4 +522,3 @@ export {
   SidebarTrigger,
   useSidebar,
 }
-

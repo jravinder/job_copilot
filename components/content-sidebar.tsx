@@ -7,9 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, useSidebar } from "@/components/ui/sidebar"
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Edit2, Save, X, Loader2 } from "lucide-react"
+import { Edit2, Save, X, Loader2, FileText, Briefcase } from "lucide-react"
 import type { BulletPoints } from "@/app/actions/extract-bullets"
 import { extractBulletPoints } from "@/app/actions/extract-bullets"
 
@@ -160,40 +159,47 @@ export function ContentSidebar({
 
   return (
     <Sidebar className="border-r w-[300px] flex-shrink-0">
+      {/* Update the SidebarHeader section to be more visually appealing and clearer */}
       <SidebarHeader className="border-b p-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Application Content</h2>
-          <div className="flex items-center gap-2">
-            <Button size="sm" variant="outline" onClick={loadBulletPoints} disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Analyzing...
-                </>
-              ) : (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2" />
-                  Analyze Content
-                </>
-              )}
-            </Button>
-            <SidebarTrigger />
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Application Details</h2>
+            <div className="flex items-center gap-2">
+              <Button size="sm" variant="outline" onClick={loadBulletPoints} disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Analyzing...
+                  </>
+                ) : (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2" />
+                    Refresh Analysis
+                  </>
+                )}
+              </Button>
+              <SidebarTrigger />
+            </div>
           </div>
+          <p className="text-sm text-muted-foreground">View and edit your resume and job description details</p>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <Tabs defaultValue="resume" className="w-full">
-          <TabsList className="w-full grid grid-cols-2 p-1 bg-muted/50">
+          {/* Update the TabsList to be more visually appealing */}
+          <TabsList className="w-full grid grid-cols-2 p-1 bg-muted/50 mb-4">
             <TabsTrigger
               value="resume"
-              className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm font-medium"
             >
+              <FileText className="h-4 w-4 mr-2" />
               Resume {isLoading && <Loader2 className="h-3 w-3 ml-2 animate-spin" />}
             </TabsTrigger>
             <TabsTrigger
               value="job"
-              className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              className="data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm font-medium"
             >
+              <Briefcase className="h-4 w-4 mr-2" />
               Job Description {isLoading && <Loader2 className="h-3 w-3 ml-2 animate-spin" />}
             </TabsTrigger>
           </TabsList>
@@ -207,41 +213,16 @@ export function ContentSidebar({
                     <Button size="sm" variant="ghost" onClick={() => setEditingResume(false)}>
                       <X className="h-4 w-4" />
                     </Button>
-                    <Button size="sm" onClick={handleSaveResume}>
+                    <Button size="sm" onClick={handleSaveResume} variant="default">
                       <Save className="h-4 w-4 mr-2" />
-                      Save
+                      Save Changes
                     </Button>
                   </div>
                 ) : (
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button size="sm" variant="ghost" onClick={() => setEditingResume(true)}>
-                        <Edit2 className="h-4 w-4 mr-2" />
-                        Edit
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="w-[400px] sm:w-[540px]" aria-describedby="sheet-description">
-                      <SheetHeader>
-                        <SheetTitle>Edit Application Content</SheetTitle>
-                        <p id="sheet-description" className="text-sm text-muted-foreground">
-                          Make changes to your resume and job description content.
-                        </p>
-                      </SheetHeader>
-                      {editingResume ? (
-                        <Textarea
-                          value={tempResume}
-                          onChange={(e) => setTempResume(e.target.value)}
-                          className="min-h-[300px]"
-                        />
-                      ) : null}
-                      <div className="flex justify-end mt-4">
-                        <Button size="sm" onClick={handleSaveResume}>
-                          <Save className="h-4 w-4 mr-2" />
-                          Save
-                        </Button>
-                      </div>
-                    </SheetContent>
-                  </Sheet>
+                  <Button size="sm" variant="outline" onClick={() => setEditingResume(true)}>
+                    <Edit2 className="h-4 w-4 mr-2" />
+                    Edit Resume
+                  </Button>
                 )}
               </div>
 
@@ -312,7 +293,13 @@ export function ContentSidebar({
                       </div>
                     )}
                   </div>
-                ) : null}
+                ) : (
+                  <Textarea
+                    value={tempResume}
+                    onChange={(e) => setTempResume(e.target.value)}
+                    className="h-[calc(100vh-14rem)] resize-none"
+                  />
+                )}
               </ScrollArea>
             </div>
           </TabsContent>
@@ -326,41 +313,16 @@ export function ContentSidebar({
                     <Button size="sm" variant="ghost" onClick={() => setEditingJob(false)}>
                       <X className="h-4 w-4" />
                     </Button>
-                    <Button size="sm" onClick={handleSaveJob}>
+                    <Button size="sm" onClick={handleSaveJob} variant="default">
                       <Save className="h-4 w-4 mr-2" />
-                      Save
+                      Save Changes
                     </Button>
                   </div>
                 ) : (
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button size="sm" variant="ghost" onClick={() => setEditingJob(true)}>
-                        <Edit2 className="h-4 w-4 mr-2" />
-                        Edit
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="w-[400px] sm:w-[540px]" aria-describedby="sheet-description">
-                      <SheetHeader>
-                        <SheetTitle>Edit Application Content</SheetTitle>
-                        <p id="sheet-description" className="text-sm text-muted-foreground">
-                          Make changes to your resume and job description content.
-                        </p>
-                      </SheetHeader>
-                      {editingJob ? (
-                        <Textarea
-                          value={tempJob}
-                          onChange={(e) => setTempJob(e.target.value)}
-                          className="min-h-[300px]"
-                        />
-                      ) : null}
-                      <div className="flex justify-end mt-4">
-                        <Button size="sm" onClick={handleSaveJob}>
-                          <Save className="h-4 w-4 mr-2" />
-                          Save
-                        </Button>
-                      </div>
-                    </SheetContent>
-                  </Sheet>
+                  <Button size="sm" variant="outline" onClick={() => setEditingJob(true)}>
+                    <Edit2 className="h-4 w-4 mr-2" />
+                    Edit Description
+                  </Button>
                 )}
               </div>
 
@@ -414,7 +376,13 @@ export function ContentSidebar({
                       )
                     )}
                   </div>
-                ) : null}
+                ) : (
+                  <Textarea
+                    value={tempJob}
+                    onChange={(e) => setTempJob(e.target.value)}
+                    className="h-[calc(100vh-14rem)] resize-none"
+                  />
+                )}
               </ScrollArea>
             </div>
           </TabsContent>
@@ -423,4 +391,3 @@ export function ContentSidebar({
     </Sidebar>
   )
 }
-

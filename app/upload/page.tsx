@@ -2,246 +2,180 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowLeft, Loader2, Trash2 } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { FileText, Briefcase, Building, Upload, ArrowLeft } from "lucide-react"
+import { RootLayout } from "@/components/layout/root-layout"
+import { useAuth } from "@/hooks/use-auth"
 
 export default function UploadPage() {
+  const { user, loading, logout, isAuthenticated } = useAuth()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [user, setUser] = useState<{ name: string } | null>(null)
   const [resumeText, setResumeText] = useState("")
   const [jobDescription, setJobDescription] = useState("")
   const [companyName, setCompanyName] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [notes, setNotes] = useState("")
-  const [hasExistingData, setHasExistingData] = useState(false)
-
-  useEffect(() => {
-    // Check if user is logged in
-    const userData = localStorage.getItem("user")
-    if (!userData) {
-      router.push("/login")
-      return
-    }
-
-    setUser(JSON.parse(userData))
-
-    // Load any existing data
-    const resumeData = localStorage.getItem("resumeData")
-    if (resumeData) {
-      const data = JSON.parse(resumeData)
-      setResumeText(data.resumeText || "")
-      setJobDescription(data.jobDescription || "")
-      setCompanyName(data.companyName || "")
-      setNotes(data.notes || "")
-      setHasExistingData(true)
-    }
-  }, [router])
+  const [position, setPosition] = useState("")
+  const [isUploading, setIsUploading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!resumeText.trim() || !jobDescription.trim() || !companyName.trim()) {
-      setError("Please provide your resume, the job description, and company name")
+    if (!resumeText.trim() || !jobDescription.trim()) {
+      alert("Please provide both resume and job description")
       return
     }
 
-    setIsLoading(true)
-    setError("")
+    setIsUploading(true)
 
     try {
-      // Store the form data
-      const formData = {
-        resumeText,
-        jobDescription,
-        companyName,
-        notes,
-        timestamp: new Date().toISOString(),
-      }
+      // Store the data in localStorage
+      localStorage.setItem(
+        "resumeData",
+        JSON.stringify({
+          resumeText,
+          jobDescription,
+          companyName,
+          position,
+          timestamp: new Date().toISOString(),
+        }),
+      )
 
-      localStorage.setItem("resumeData", JSON.stringify(formData))
+      // Navigate to the analysis page
       router.push("/analysis")
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred while saving your data")
+    } catch (error) {
+      console.error("Error saving data:", error)
+      alert("There was an error saving your data. Please try again.")
     } finally {
-      setIsLoading(false)
+      setIsUploading(false)
     }
   }
 
-  const clearForm = () => {
-    setResumeText("")
-    setJobDescription("")
-    setCompanyName("")
-    setNotes("")
-    setHasExistingData(false)
-    localStorage.removeItem("resumeData")
-  }
-
-  if (!user) {
-    return <div className="flex min-h-screen items-center justify-center">Loading...</div>
+  if (loading) {
+    return (
+      <RootLayout>
+        <div className="flex min-h-screen items-center justify-center">Loading...</div>
+      </RootLayout>
+    )
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-16 flex items-center border-b">
-        <div className="flex items-center justify-between w-full">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-            <span className="text-primary">JobMatch</span> AI Coach
-          </Link>
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-medium">Welcome, {user.name}</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                localStorage.removeItem("user")
-                router.push("/login")
-              }}
-            >
-              Logout
-            </Button>
+    <RootLayout isAuthenticated={isAuthenticated} userName={user?.name || ""} onLogout={logout}>
+      {/* Header with navigation - styled exactly like results page */}
+      <div className="bg-blue-600 text-white py-4 mb-6">
+        <div className="container">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <Upload className="h-5 w-5" />
+              <h1 className="text-xl font-semibold">Personal Job CoPilot</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="secondary" size="sm" asChild>
+                <Link href="/dashboard" className="gap-2">
+                  <ArrowLeft className="h-4 w-4" />
+                  Back
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
-      </header>
-      <main className="flex-1 container py-12">
-        <div className="mb-8">
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back to Dashboard
-          </Link>
-          <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            New Analysis
-          </h1>
-          <p className="text-gray-600">Paste your resume and the job description to get personalized insights.</p>
-        </div>
+      </div>
 
-        {hasExistingData && (
-          <Alert className="mb-6">
-            <AlertDescription className="flex items-center justify-between">
-              <span>Using content from your previous analysis. Want to start fresh?</span>
-              <Button variant="outline" size="sm" onClick={clearForm}>
-                <Trash2 className="h-4 w-4 mr-2" />
-                Clear Form
-              </Button>
-            </AlertDescription>
-          </Alert>
-        )}
-
-        <Card className="max-w-3xl mx-auto bg-white/80 backdrop-blur-sm">
-          <form onSubmit={handleSubmit}>
-            <CardHeader>
-              <CardTitle>Upload Information</CardTitle>
-              <CardDescription>
-                Provide your resume content and the job description you want to analyze.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {error && <div className="p-3 text-sm bg-red-50 text-red-500 rounded-md">{error}</div>}
-
-              <div className="space-y-2">
-                <Label htmlFor="resume">Your Resume</Label>
-                <div className="relative">
+      <main className="container py-6">
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  Resume
+                </CardTitle>
+                <CardDescription>Paste the content of your resume</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4">
                   <Textarea
-                    id="resume"
                     placeholder="Paste your resume text here..."
-                    className="min-h-[200px]"
+                    className="min-h-[300px]"
                     value={resumeText}
                     onChange={(e) => setResumeText(e.target.value)}
                     required
                   />
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Copy and paste the content of your resume, including all sections.
-                </p>
-              </div>
+              </CardContent>
+            </Card>
 
-              <div className="space-y-2">
-                <Label htmlFor="jobDescription">Job Description</Label>
-                <Textarea
-                  id="jobDescription"
-                  placeholder="Paste the job description here..."
-                  className="min-h-[200px]"
-                  value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  Copy and paste the full job description, including requirements and responsibilities.
-                </p>
-              </div>
+            <div className="grid gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Briefcase className="h-5 w-5 text-primary" />
+                    Job Description
+                  </CardTitle>
+                  <CardDescription>Paste the job description you're applying for</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4">
+                    <Textarea
+                      placeholder="Paste the job description here..."
+                      className="min-h-[200px]"
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                      required
+                    />
+                  </div>
+                </CardContent>
+              </Card>
 
-              <div className="space-y-2">
-                <Label htmlFor="companyName">Company Name</Label>
-                <Input
-                  id="companyName"
-                  placeholder="Enter the company name..."
-                  value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
-                  required
-                />
-                <p className="text-xs text-muted-foreground">
-                  Enter the company name to get personalized insights and templates.
-                </p>
-              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Building className="h-5 w-5 text-primary" />
+                    Additional Information
+                  </CardTitle>
+                  <CardDescription>Optional details about the position</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="company">Company Name</Label>
+                      <Input
+                        id="company"
+                        placeholder="e.g., Acme Corporation"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="position">Position Title</Label>
+                      <Input
+                        id="position"
+                        placeholder="e.g., Senior Software Engineer"
+                        value={position}
+                        onChange={(e) => setPosition(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="notes">Additional Notes</Label>
-                <Textarea
-                  id="notes"
-                  placeholder="Any additional notes or context..."
-                  className="min-h-[100px]"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Provide any extra information that might be helpful for the analysis.
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button type="button" variant="outline" onClick={clearForm} disabled={!hasExistingData}>
-                <Trash2 className="h-4 w-4 mr-2" />
-                Clear Form
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  "Continue to Analysis"
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
+          <div className="mt-6 flex justify-end gap-4">
+            <Button variant="outline" asChild>
+              <Link href="/dashboard">Cancel</Link>
+            </Button>
+            <Button type="submit" disabled={isUploading}>
+              {isUploading ? "Uploading..." : "Continue to Analysis"}
+            </Button>
+          </div>
+        </form>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} JobMatch AI Coach. All rights reserved.
-        </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link href="#" className="text-xs hover:underline underline-offset-4">
-            Terms of Service
-          </Link>
-          <Link href="#" className="text-xs hover:underline underline-offset-4">
-            Privacy
-          </Link>
-        </nav>
-      </footer>
-    </div>
+    </RootLayout>
   )
 }
-

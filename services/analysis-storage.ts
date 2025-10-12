@@ -179,4 +179,3 @@ class AnalysisStorageService {
 
 // Create a singleton instance
 export const analysisStorage = new AnalysisStorageService()
-

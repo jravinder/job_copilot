@@ -231,4 +231,3 @@ export async function matchJobWithDescription(job: Job, jobDescription: string):
     return null
   }
 }
-

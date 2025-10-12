@@ -42,17 +42,14 @@ export interface StoredAnalysis extends JobAnalysis {
 }
 
 export interface AIAnalysisResult {
-  score: number
-  position: string
-  company: string
-  skills: {
-    matching: string[]
-    missing: string[]
-  }
+  companyName: string
+  hiringManager: string
+  matchScore: number
+  matchingSkills: string[]
+  missingSkills: string[]
   resumeSuggestions: string[]
   coverLetter: string
   coldEmail: string
-  recruiterPitch: string
   linkedinSuggestions: string[]
   companyInsights: {
     recentNews: string
@@ -61,6 +58,7 @@ export interface AIAnalysisResult {
     interviewFocus: string
   }
   interviewReadiness: number
+  position?: string
 }
 
 export interface AnalysisResponse {
@@ -68,4 +66,3 @@ export interface AnalysisResponse {
   data?: AIAnalysisResult
   error?: string
 }
-

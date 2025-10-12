@@ -1,98 +1,150 @@
 "use client"
 
 import type React from "react"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { Suspense, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Loader2 } from "lucide-react"
+import { RootLayout } from "@/components/layout/root-layout"
+import { supabase } from "@/lib/supabase"
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter()
-  const [username, setUsername] = useState("")
+  const searchParams = useSearchParams()
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const handleLogin = (e: React.FormEvent) => {
+  const message = searchParams.get("message")
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
+    setError("")
 
-    // Allow bypass if no credentials are entered
-    if (!username.trim() && !password.trim()) {
-      localStorage.setItem("user", JSON.stringify({ username: "guest", name: "Guest User" }))
-      router.push("/dashboard")
-      return
-    }
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-    // Mock authentication for demo credentials
-    if (username === "demo" && password === "123") {
-      localStorage.setItem("user", JSON.stringify({ username: "demo", name: "Demo User" }))
-      router.push("/dashboard")
-    } else {
-      setError("Invalid credentials")
+      if (error) throw error
+
+      if (data.user) {
+        localStorage.setItem("user", JSON.stringify({ email: data.user.email, name: data.user.email }))
+        router.push("/dashboard")
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to sign in")
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-12 bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm">
-        <CardHeader className="space-y-1">
-          <div className="flex justify-center mb-4">
-            <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Job CoPilot</span>{" "}
-              AI Coach
-            </Link>
-          </div>
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <CardDescription>Enter your credentials or leave empty to continue as guest</CardDescription>
-        </CardHeader>
-        <form onSubmit={handleLogin}>
-          <CardContent className="space-y-4">
-            {error && <div className="p-3 text-sm bg-red-50 text-red-500 rounded-md">{error}</div>}
-            <div className="space-y-2">
-              <Label htmlFor="username">Username</Label>
-              <Input
-                id="username"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link href="#" className="text-sm text-primary hover:underline">
-                  Forgot password?
-                </Link>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col space-y-4">
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-            <div className="text-sm text-center text-muted-foreground">
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="text-primary hover:underline">
-                Sign up
+    <RootLayout showHeader={false} showFooter={false}>
+      <div className="flex min-h-screen items-center justify-center px-4 py-12 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <Card className="w-full max-w-md bg-white/80 backdrop-blur-sm">
+          <CardHeader className="space-y-1">
+            <div className="flex justify-center mb-4">
+              <Link href="/" className="flex items-center gap-2">
+                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent text-xl font-bold">
+                  Personal Job CoPilot
+                </span>
               </Link>
             </div>
-            <div className="text-xs text-center text-muted-foreground">Demo credentials: username: demo</div>
+            <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
+            <CardDescription className="text-center">Sign in to your account to continue</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {message && (
+              <Alert className="mb-4">
+                <AlertDescription>{message}</AlertDescription>
+              </Alert>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Password</Label>
+                  <Link href="/reset-password" className="text-sm text-primary hover:underline">
+                    Forgot password?
+                  </Link>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter>
+            <p className="text-sm text-center w-full text-muted-foreground">
+              Don't have an account?{" "}
+              <Link href="/signup" className="text-primary hover:underline font-medium">
+                Sign up
+              </Link>
+            </p>
           </CardFooter>
-        </form>
-      </Card>
-    </div>
+        </Card>
+      </div>
+    </RootLayout>
   )
 }
 
+export default function LoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <RootLayout showHeader={false} showFooter={false}>
+          <div className="flex min-h-screen items-center justify-center px-4 py-12 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+            <Card className="w-full max-w-md">
+              <CardContent className="flex flex-col items-center justify-center p-8">
+                <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+                <p className="text-center text-muted-foreground">Loading...</p>
+              </CardContent>
+            </Card>
+          </div>
+        </RootLayout>
+      }
+    >
+      <LoginContent />
+    </Suspense>
+  )
+}

@@ -5,137 +5,69 @@ import { Button } from "@/components/ui/button"
 import {
   ArrowRight,
   CheckCircle,
-  Star,
-  Users,
   Zap,
   Trophy,
   Target,
-  Brain,
   FileText,
-  FileEdit,
-  ListChecks,
-  Mail,
-  LineChart,
-  Users2,
-  GraduationCap,
-  Rocket,
-  LinkIcon,
+  Search,
+  Sparkles,
+  Shield,
+  MessageSquare,
 } from "lucide-react"
 import { motion } from "framer-motion"
 
-const features = [
+// Key benefits focused on immediate job search success
+const keyBenefits = [
   {
-    title: "Smart Resume Analysis",
-    description: "Get instant AI-powered feedback on your resume with specific suggestions for improvement.",
-    icon: Brain,
-  },
-  {
-    title: "Real-Time Match Score",
-    description: "See exactly how well you match each job with our dynamic scoring system.",
+    title: "Match Your Perfect Job",
+    description: "AI-powered job matching that finds opportunities aligned with your skills and experience.",
     icon: Target,
   },
   {
-    title: "Interview Success Kit",
-    description: "Get personalized interview prep, custom questions, and winning response strategies.",
-    icon: Trophy,
+    title: "Stand Out Instantly",
+    description: "Customize your applications in minutes with tailored resumes and cover letters.",
+    icon: Sparkles,
   },
   {
-    title: "AI Cover Letter Writer",
-    description: "Generate tailored cover letters that highlight your most relevant experience.",
+    title: "Interview With Confidence",
+    description: "Get prepared with job-specific interview questions and winning answers.",
+    icon: MessageSquare,
+  },
+  {
+    title: "Apply Securely",
+    description: "Your applications stay private and secure - you control where they go.",
+    icon: Shield,
+  },
+]
+
+const features = [
+  {
+    title: "Smart Job Matching",
+    description: "Get instant feedback on how well you match each job and what you can improve.",
+    icon: Target,
+  },
+  {
+    title: "Quick Application Tools",
+    description: "Generate customized resumes and cover letters in minutes, not hours.",
     icon: Zap,
   },
   {
-    title: "Network Intelligence",
-    description: "Get smart networking suggestions and LinkedIn optimization tips.",
-    icon: Users,
+    title: "Interview Preparation",
+    description: "Practice with AI that knows the job requirements and your background.",
+    icon: MessageSquare,
   },
   {
-    title: "Company Insights",
-    description: "Access detailed company analysis and culture fit predictions.",
-    icon: Star,
+    title: "Job Search Companion",
+    description: "Track applications, deadlines, and follow-ups all in one place.",
+    icon: Search,
   },
 ]
 
 const stats = [
-  { value: "85%", label: "Success Rate" },
-  { value: "2.5x", label: "Interview Rate" },
-  { value: "75%", label: "Time Saved" },
-  { value: "92%", label: "User Satisfaction" },
-]
-
-const MUIColors = {
-  primary: {
-    main: "#6200EE",
-  },
-}
-
-// Add new sections data
-const howItWorks = [
-  {
-    step: 1,
-    title: "Upload Resume & Paste Job Description",
-    description: "Simply upload your resume and paste any job description you're interested in.",
-    icon: FileText,
-  },
-  {
-    step: 2,
-    title: "AI Analyzes Your Fit & Identifies Skill Gaps",
-    description: "Our AI engine analyzes your qualifications and identifies areas for improvement.",
-    icon: Brain,
-  },
-  {
-    step: 3,
-    title: "Get Personalized Resume Edits & Cover Letter Suggestions",
-    description: "Receive tailored suggestions to optimize your resume and create compelling cover letters.",
-    icon: FileEdit,
-  },
-  {
-    step: 4,
-    title: "Receive AI-Powered Networking & Interview Prep",
-    description: "Get personalized interview questions and networking strategies.",
-    icon: Users,
-  },
-]
-
-const whyChooseUs = [
-  {
-    title: "AI-Powered Resume Matching",
-    description: "Instantly analyzes fit with a job description using advanced AI algorithms.",
-    icon: Target,
-  },
-  {
-    title: "Personalized Action Plan",
-    description: "Tailored resume tips, networking advice, and skill-building steps.",
-    icon: ListChecks,
-  },
-  {
-    title: "Intelligent Cover Letter & Email Drafting",
-    description: "Saves time and makes applications stand out with AI-generated content.",
-    icon: Mail,
-  },
-  {
-    title: "Company Insights & Hiring Trends",
-    description: "Get insider knowledge to strengthen applications and stay ahead.",
-    icon: LineChart,
-  },
-]
-
-const whyItMatters = [
-  {
-    title: "Universal Career Guidance",
-    description: "Helps job seekers from all backgrounds get professional career guidance.",
-    icon: Users2,
-  },
-  {
-    title: "Smarter Applications",
-    description: "Makes job applications faster & smarter with AI-powered insights.",
-    icon: Zap,
-  },
-  {
-    title: "Professional Growth",
-    description: "Bridges skill gaps & empowers professionals to grow in their careers.",
-    icon: GraduationCap,
-  },
+  { value: "2x", label: "More Interviews" },
+  { value: "80%", label: "Less Time Applying" },
+  { value: "93%", label: "Match Accuracy" },
+  { value: "24/7", label: "AI Support" },
 ]
 
 export default function Home() {
@@ -145,9 +77,18 @@ export default function Home() {
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-2 font-bold text-xl">
-              <span className="text-primary">Job CoPilot</span>
+              <span className="text-primary">Personal Job CoPilot</span>
             </div>
             <nav className="flex gap-4 sm:gap-6">
+              <Link href="/features" className="text-sm font-medium hover:text-primary transition-colors">
+                Features
+              </Link>
+              <Link href="/how-it-works" className="text-sm font-medium hover:text-primary transition-colors">
+                How It Works
+              </Link>
+              <Link href="/pricing" className="text-sm font-medium hover:text-primary transition-colors">
+                Pricing
+              </Link>
               <Link href="/login" className="text-sm font-medium hover:text-primary transition-colors">
                 Login
               </Link>
@@ -170,27 +111,30 @@ export default function Home() {
                 <div className="space-y-2">
                   <div className="inline-flex items-center rounded-lg bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-4">
                     <Zap className="mr-1 h-4 w-4" />
-                    Powered by Advanced AI
+                    Your AI Job Search Partner
                   </div>
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl lg:text-6xl/none bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
-                    Land Your Dream Job with AI-Powered Insights
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl lg:text-6xl/none">
+                    Land Your Next Job{" "}
+                    <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-gradient">
+                      Faster & Easier
+                    </span>
                   </h1>
                   <p className="max-w-[600px] text-gray-600 md:text-xl dark:text-gray-400">
-                    Transform your job search with personalized AI coaching. Get instant resume analysis, match scores,
-                    and tailored strategies to stand out.
+                    Stop spending hours on applications. Get personalized AI help to match jobs, customize applications,
+                    and ace interviews - all while staying true to yourself.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Link href="/login">
                     <Button size="lg" className="relative group">
-                      <span className="relative z-10">Get Started Free</span>
+                      <span className="relative z-10">Find Your Next Job</span>
                       <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-100 group-hover:opacity-0 transition-opacity rounded-md" />
                       <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity rounded-md" />
                       <ArrowRight className="relative z-10 h-4 w-4 ml-2" />
                     </Button>
                   </Link>
                   <Button size="lg" variant="outline" className="group">
-                    Watch Demo
+                    See Success Stories
                     <div className="relative ml-2 h-4 w-4 transition-transform group-hover:scale-110">
                       <div className="absolute inset-0 rounded-full bg-primary/20 animate-ping" />
                       <div className="relative rounded-full bg-primary/40 h-full w-full" />
@@ -217,23 +161,23 @@ export default function Home() {
                         AI
                       </div>
                       <div>
-                        <div className="font-semibold">Job CoPilot AI Coach</div>
-                        <div className="text-sm text-muted-foreground">Analyzing your profile...</div>
+                        <div className="font-semibold">Job Match Analysis</div>
+                        <div className="text-sm text-muted-foreground">Analyzing your application...</div>
                       </div>
                     </div>
                     <div className="space-y-4">
                       {[
                         {
-                          icon: <CheckCircle className="h-5 w-5" style={{ color: MUIColors.primary.main }} />,
-                          text: "Strong match with Frontend Developer roles",
+                          icon: <CheckCircle className="h-5 w-5 text-primary" />,
+                          text: "95% match with Senior Developer role",
                         },
                         {
-                          icon: <CheckCircle className="h-5 w-5" style={{ color: MUIColors.primary.main }} />,
-                          text: "React & TypeScript expertise detected",
+                          icon: <Target className="h-5 w-5 text-primary" />,
+                          text: "Key skills identified: React, TypeScript",
                         },
                         {
-                          icon: <CheckCircle className="h-5 w-5" style={{ color: MUIColors.primary.main }} />,
-                          text: "85% match with current job market demands",
+                          icon: <Sparkles className="h-5 w-5 text-primary" />,
+                          text: "Customizing your application...",
                         },
                       ].map((item, index) => (
                         <motion.div
@@ -253,9 +197,9 @@ export default function Home() {
                       ))}
                     </div>
                     <div className="pt-4">
-                      <div className="text-sm font-medium mb-2">Match Score</div>
+                      <div className="text-sm font-medium mb-2">Application Strength</div>
                       <div className="h-2 rounded-full bg-muted overflow-hidden">
-                        <div className="h-full w-[85%] bg-gradient-to-r from-primary to-secondary animate-[progressBar_2s_ease-in-out]" />
+                        <div className="h-full w-[95%] bg-gradient-to-r from-primary to-secondary animate-[progressBar_2s_ease-in-out]" />
                       </div>
                     </div>
                   </div>
@@ -265,59 +209,45 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why Choose Job CoPilot Section */}
+        {/* How It Works Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-muted/50">
           <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-4 mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Why Choose{" "}
+                Land Your Next Job in{" "}
                 <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Job CoPilot?
+                  3 Simple Steps
                 </span>
               </h2>
               <p className="text-gray-600 md:text-xl max-w-[800px] mx-auto">
-                Unlike traditional job boards, Job CoPilot doesn't just list jobs—it guides you through the entire
-                hiring process with AI-powered insights.
+                No more spending hours on applications. Our AI helps you apply smarter and faster.
               </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {whyChooseUs.map((item, index) => (
-                <div
-                  key={index}
-                  className="relative group rounded-xl border p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <item.icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-muted/50 to-white">
-          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center space-y-4 mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                How It Works —{" "}
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Your AI Job Search Assistant
-                </span>
-              </h2>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {howItWorks.map((step, index) => (
+            <div className="grid gap-8 md:grid-cols-3">
+              {[
+                {
+                  step: 1,
+                  title: "Upload Your Resume",
+                  description: "Share your resume and let our AI analyze your strengths.",
+                  icon: FileText,
+                },
+                {
+                  step: 2,
+                  title: "Match & Apply",
+                  description: "Get instant job matches and customize applications in minutes.",
+                  icon: Target,
+                },
+                {
+                  step: 3,
+                  title: "Interview & Succeed",
+                  description: "Prepare with AI and land your next role.",
+                  icon: Trophy,
+                },
+              ].map((step, index) => (
                 <div key={index} className="relative group">
                   <div className="absolute -inset-px bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity rounded-xl blur" />
-                  <div className="relative bg-background rounded-xl border p-6 hover:shadow-xl transition-all duration-300">
+                  <div className="relative bg-white rounded-xl border p-6 hover:shadow-xl transition-all duration-300">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white font-bold mb-4">
                       {step.step}
                     </div>
@@ -330,160 +260,65 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why This Matters Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-muted/50">
-          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center space-y-4 mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Why This{" "}
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Matters
-                </span>
-              </h2>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-3">
-              {whyItMatters.map((item, index) => (
-                <div
-                  key={index}
-                  className="relative group rounded-xl border p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <item.icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* New CTA Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-background to-secondary/10" />
-          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-            <div className="max-w-2xl mx-auto text-center space-y-8">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Ready to Land Your Next Job{" "}
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Faster?
-                </span>
-              </h2>
-              <p className="text-gray-600 md:text-xl">🚀 Upload your resume & let AI supercharge your job search!</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/login">
-                  <Button size="lg" className="relative group w-full sm:w-auto">
-                    <span className="relative z-10">Try Job CoPilot Now</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-100 group-hover:opacity-0 transition-opacity rounded-md" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity rounded-md" />
-                    <ArrowRight className="relative z-10 h-4 w-4 ml-2" />
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-muted/50">
-          <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center space-y-4 mb-12">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Everything You Need to{" "}
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Stand Out
-                </span>
-              </h2>
-              <p className="text-gray-600 md:text-xl max-w-[800px] mx-auto">
-                Our AI-powered platform provides all the tools you need to craft the perfect application and land your
-                dream job.
-              </p>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="relative group rounded-xl border p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                >
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <feature.icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-muted-foreground">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* How Job CoPilot Works Under the Hood */}
+        {/* Success Stories Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-muted/50 to-white">
           <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center space-y-4 mb-12">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                How Job CoPilot Works{" "}
+                Real People,{" "}
                 <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Under the Hood
+                  Real Jobs
                 </span>
               </h2>
+              <p className="text-gray-600 md:text-xl max-w-[800px] mx-auto">
+                See how others landed their dream jobs with Personal Job CoPilot.
+              </p>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-8 md:grid-cols-3">
               {[
                 {
-                  icon: Rocket,
-                  title: "Built with Vercel v0",
-                  description: "Fast & responsive web experience",
+                  quote:
+                    "From application to offer in just 2 weeks! The AI helped me perfectly match my experience to the job requirements.",
+                  author: "David Chen",
+                  role: "Senior Developer at Tech Co",
+                  time: "2 weeks to offer",
                 },
                 {
-                  icon: Brain,
-                  title: "AI-Powered Insights",
-                  description: "Llama 3.3 analyzes resumes & job descriptions",
+                  quote:
+                    "The interview prep was spot-on. Every question the AI helped me prepare for came up in the actual interview.",
+                  author: "Sarah Miller",
+                  role: "Product Manager at StartupX",
+                  time: "3 interviews, 1 offer",
                 },
                 {
-                  icon: LinkIcon,
-                  title: "Smart Job Matching",
-                  description: "LinkedIn & market insights for tailored job recommendations",
+                  quote:
+                    "Applied to 5 jobs with customized applications in one afternoon. Got 3 interviews and 2 offers!",
+                  author: "James Wilson",
+                  role: "Data Scientist at DataCorp",
+                  time: "5 applications, 2 offers",
                 },
-                {
-                  icon: LineChart,
-                  title: "Personalized Coaching",
-                  description: "Resume fixes, interview prep, networking tips",
-                },
-              ].map((item, index) => (
+              ].map((story, index) => (
                 <div
                   key={index}
-                  className="relative group rounded-xl border p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  className="relative group rounded-xl border p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white"
                 >
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/10 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute -inset-px bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity rounded-xl blur" />
                   <div className="relative">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <item.icon className="w-6 h-6 text-primary" />
+                    <p className="text-lg mb-4 italic text-gray-600">{story.quote}</p>
+                    <div className="flex items-center gap-2">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white font-bold">
+                        {story.author[0]}
+                      </div>
+                      <div>
+                        <div className="font-semibold">{story.author}</div>
+                        <div className="text-sm text-muted-foreground">{story.role}</div>
+                        <div className="text-xs text-primary mt-1">{story.time}</div>
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
                   </div>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-12 text-center">
-              <Link href="/login">
-                <Button size="lg" className="relative group">
-                  <span className="relative z-10">📌 Try Job CoPilot Now</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-100 group-hover:opacity-0 transition-opacity rounded-md" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity rounded-md" />
-                  <ArrowRight className="relative z-10 h-4 w-4 ml-2" />
-                </Button>
-              </Link>
             </div>
           </div>
         </section>
@@ -494,26 +329,23 @@ export default function Home() {
           <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
             <div className="max-w-2xl mx-auto text-center space-y-8">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Ready to Transform Your{" "}
+                Ready to Land{" "}
                 <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Job Search?
+                  Your Next Job?
                 </span>
               </h2>
               <p className="text-gray-600 md:text-xl">
-                Join thousands of professionals who have already discovered the power of AI-driven job searching.
+                Join thousands who've already found their perfect job match. Start for free today.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/login">
                   <Button size="lg" className="relative group w-full sm:w-auto">
-                    <span className="relative z-10">Get Started Free</span>
+                    <span className="relative z-10">Start Your Job Search</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-100 group-hover:opacity-0 transition-opacity rounded-md" />
                     <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100 transition-opacity rounded-md" />
                     <ArrowRight className="relative z-10 h-4 w-4 ml-2" />
                   </Button>
                 </Link>
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                  View Pricing
-                </Button>
               </div>
             </div>
           </div>
@@ -523,7 +355,9 @@ export default function Home() {
       <footer className="w-full border-t bg-white">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center">
-            <p className="text-xs text-gray-600">© {new Date().getFullYear()} Job CoPilot. All rights reserved.</p>
+            <p className="text-xs text-gray-600">
+              © {new Date().getFullYear()} Personal Job CoPilot. All rights reserved.
+            </p>
             <nav className="sm:ml-auto flex gap-4 sm:gap-6">
               <Link href="#" className="text-xs hover:text-primary transition-colors">
                 Terms of Service
@@ -538,4 +372,3 @@ export default function Home() {
     </div>
   )
 }
-

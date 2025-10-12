@@ -81,4 +81,3 @@ export function AnalysisHistory({ userId }: { userId: string }) {
     </div>
   )
 }
-

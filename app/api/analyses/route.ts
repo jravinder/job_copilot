@@ -45,4 +45,3 @@ export async function DELETE(request: Request) {
   analyses = analyses.filter((a) => a.id !== id)
   return NextResponse.json({ success: true })
 }
-

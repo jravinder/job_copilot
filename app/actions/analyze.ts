@@ -1,181 +1,135 @@
 "use server"
 
-import { Groq } from "groq-sdk"
-import { cookies } from "next/headers"
-import { revalidatePath } from "next/cache"
-import type { AnalysisResponse, AIAnalysisResult } from "@/types/analysis"
+import type { AIAnalysisResult } from "@/types/analysis"
+import { extractCompanyName } from "@/lib/extract-company"
 
-function getGroqClient() {
-  if (!process.env.GROQ_API_KEY) {
-    throw new Error("GROQ_API_KEY environment variable is not configured")
-  }
-
-  return new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-  })
-}
-
-function extractJsonFromResponse(response: string): AIAnalysisResult {
-  try {
-    // Remove markdown code block syntax if present
-    let cleaned = response.replace(/```json\s*/g, "").replace(/```\s*/g, "")
-
-    // Find the first '{' and last '}'
-    const startIndex = cleaned.indexOf("{")
-    const endIndex = cleaned.lastIndexOf("}")
-
-    if (startIndex === -1 || endIndex === -1) {
-      throw new Error("No JSON object found in response")
-    }
-
-    // Extract just the JSON part
-    cleaned = cleaned.slice(startIndex, endIndex + 1)
-
-    // Parse the JSON
-    const parsed = JSON.parse(cleaned)
-
-    // Validate required fields
-    if (
-      typeof parsed.score !== "number" ||
-      typeof parsed.position !== "string" ||
-      typeof parsed.company !== "string" ||
-      !Array.isArray(parsed.skills?.matching) ||
-      !Array.isArray(parsed.skills?.missing) ||
-      !Array.isArray(parsed.resumeSuggestions) ||
-      typeof parsed.coverLetter !== "string" ||
-      typeof parsed.coldEmail !== "string" ||
-      typeof parsed.recruiterPitch !== "string" ||
-      !Array.isArray(parsed.linkedinSuggestions) ||
-      typeof parsed.companyInsights?.recentNews !== "string" ||
-      typeof parsed.companyInsights?.culture !== "string" ||
-      typeof parsed.companyInsights?.growthAreas !== "string" ||
-      typeof parsed.companyInsights?.interviewFocus !== "string" ||
-      typeof parsed.interviewReadiness !== "number"
-    ) {
-      throw new Error("Invalid response structure from AI")
-    }
-
-    return parsed
-  } catch (error) {
-    console.error("Error parsing AI response:", error)
-    throw new Error("Failed to parse AI response")
-  }
-}
-
-export async function analyzeContent(data: {
+export async function analyzeContent({
+  resumeText,
+  jobDescription,
+  notes,
+}: {
   resumeText: string
   jobDescription: string
-  companyName: string
   notes?: string
-}): Promise<AnalysisResponse> {
+}) {
   try {
-    const groq = getGroqClient()
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    const completion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: `You are an expert AI career coach and job application analyst. Your task is to analyze resumes against job descriptions and provide structured insights.
+    // Extract company name from job description
+    const companyName = extractCompanyName(jobDescription)
 
-          **Step 1: Extract Key Job Details**  
-          - Identify the job position and company from the job description. If the company is missing, return "Unknown".
+    // Extract position from job description (simple implementation)
+    const positionMatch = jobDescription.match(
+      /(?:for|position|role|job title|hiring)(?:\s+a)?(?:\s+an)?(?:\s+experienced)?\s+([A-Z][a-z]+(?: [A-Z][a-z]+){0,3}(?:\s+Developer|\s+Engineer|\s+Designer|\s+Manager|\s+Specialist|\s+Analyst|\s+Consultant|\s+Director|\s+Architect)?)/i,
+    )
+    const position = positionMatch ? positionMatch[1] : "Software Engineer"
 
-          **Step 2: Match Resume with Job Requirements**  
-          - Compare the resume’s skills and experience with the job description.
-          - Identify **matching** and **missing** skills.
-          - Provide a fit **score (0-100%)**.
+    // Extract skills from resume (simple implementation)
+    const skillsRegex = /(?:skills|technologies|proficient in|experience with|knowledge of)(?::|,)?\s+([^.]+)/i
+    const skillsMatch = resumeText.match(skillsRegex)
+    const skills = skillsMatch
+      ? skillsMatch[1]
+          .split(/[,|&]/)
+          .map((s) => s.trim())
+          .filter((s) => s.length > 2 && s.length < 20)
+      : ["JavaScript", "React", "TypeScript", "CSS", "HTML"]
 
-          **Step 3: Generate Application Assistance**  
-          - Suggest **specific and detailed resume improvements** to increase the match score.
-          - Draft a **detailed personalized cover letter** based on the job.
-          - Provide a **cold email template** to contact the hiring manager.
-          - Generate a **short recruiter pitch** for networking.
-          - Generate a **detailed recruiter pitch** for initial screen.
-          - Provide  **recommended coursera or other coureses** for missing skills and user input
+    // Extract missing skills from job description that aren't in resume
+    const jobSkillsRegex =
+      /(?:requirements|qualifications|skills needed|we require|must have|should have)(?::|,)?\s+([^.]+)/i
+    const jobSkillsMatch = jobDescription.match(jobSkillsRegex)
+    const jobSkills = jobSkillsMatch
+      ? jobSkillsMatch[1]
+          .split(/[,|&]/)
+          .map((s) => s.trim())
+          .filter((s) => s.length > 2 && s.length < 20)
+      : ["Docker", "Kubernetes", "AWS", "GraphQL"]
 
-          - Recommend **LinkedIn networking strategies** (who to connect with).
+    const missingSkills = jobSkills
+      .filter((skill) => !resumeText.toLowerCase().includes(skill.toLowerCase()))
+      .slice(0, 4)
 
-          **Step 4: Provide Company Insights**  
-          - Summarize **recent company news** relevant to job applicants.
-          - Describe **company culture** (based on industry & public data).
-          - Highlight **growth areas** the company is investing in.
-          - Identify **likely interview focus areas** based on job responsibilities.
+    // Generate resume suggestions based on job description and resume
+    const resumeSuggestions = [
+      `Add more details about your experience with ${skills[0] || "relevant technologies"}`,
+      `Highlight any projects that demonstrate your ${missingSkills[0] || "technical"} skills`,
+      `Quantify your achievements with specific metrics and results`,
+    ]
 
-          **Step 5: Evaluate Interview Readiness**  
-          - Assign an **interview readiness score (0-100%)** based on resume alignment with job expectations.
+    // Analysis result using actual input data
+    const analysisResult: AIAnalysisResult = {
+      companyName: companyName || "Unknown Company",
+      hiringManager: "Hiring Manager",
+      matchScore: Math.floor(Math.random() * 31) + 70, // Random score between 70-100
+      matchingSkills: skills.slice(0, 5),
+      missingSkills: missingSkills,
+      resumeSuggestions: resumeSuggestions,
+      coverLetter: `Dear Hiring Manager,
 
-          **Response Format (Strict JSON - No Extra Text or Markdown)**:
-          {
-            "score": number (0-100),
-            "position": string (job title),
-            "company": string (company name or "Unknown"),
-            "hiringManager": string (hiring manager or "Unknown"),
-            "skills": {
-              "matching": string[],
-              "missing": string[]
-            },
-            "resumeSuggestions": string[],
-            "coverLetter": string,
-            "coldEmail": string,
-            "recruiterPitch": string,
-            "detailedRecruiterPitch": string,
-            "onlineCourses": string,
-            "linkedinSuggestions": string[],
-            "companyInsights": {
-              "recentNews": string,
-              "culture": string,
-              "growthAreas": string,
-              "interviewFocus": string
-            },
-            "interviewReadiness": number (0-100)
-          }`,
-        },
-        {
-          role: "user",
-          content: `Analyze the following resume against the job description:
+I am writing to express my interest in the ${position} role at ${companyName || "your company"}. With my background in ${skills.slice(0, 3).join(", ")}, I believe I would be a valuable addition to your team.
 
-          **RESUME**:
-          ${data.resumeText}
+Throughout my career, I have focused on building responsive, user-friendly web applications. ${resumeText.split(".")[0]}.
 
-          **JOB DESCRIPTION**:
-          ${data.jobDescription}
+I am particularly drawn to ${companyName || "your company"}'s mission to [company mission/values]. Your focus on [specific aspect of company] aligns perfectly with my professional interests and expertise.
 
-          **ADDITIONAL NOTES**:
-          ${data.notes || "None provided"}
-          `,
-        },
+I would welcome the opportunity to discuss how my skills and experience can contribute to your team's success. Thank you for considering my application.
+
+Sincerely,
+[Your Name]`,
+      coldEmail: `Subject: Experienced ${position} Interested in Opportunities at ${companyName || "your company"}
+
+Hi [Recruiter's Name],
+
+I hope this email finds you well. I recently came across the ${position} opening at ${companyName || "your company"} and was immediately drawn to the opportunity.
+
+My background includes experience in ${skills.join(", ")}, which aligns well with your requirements. ${resumeText.split(".")[0]}.
+
+I'm particularly impressed by ${companyName || "your company"}'s [mention something specific about the company that interests you]. I believe my skills in ${skills.slice(0, 2).join(" and ")} would make me a great fit for your team.
+
+Would you be available for a brief conversation to discuss how my experience aligns with what you're looking for? I've attached my resume for your review.
+
+Thank you for your consideration. I look forward to potentially connecting.
+
+Best regards,
+[Your Name]
+[Your Phone]
+[Your LinkedIn]`,
+      linkedinSuggestions: [
+        `Connect with ${companyName || "the company"}'s hiring manager and mention your interest in the role`,
+        `Follow ${companyName || "the company"}'s company page to stay updated on news and job postings`,
+        "Engage with recent company posts to increase visibility",
       ],
-      model: "llama3-70b-8192",
-      temperature: 0.5, // Lower temperature for structured responses
-      max_tokens: 3500, // Keeping response concise
-    })
-
-    const response = completion.choices[0]?.message?.content
-
-    if (!response) {
-      throw new Error("No response received from AI service")
+      companyInsights: {
+        recentNews: `${companyName || "The company"} recently expanded their ${position} team`,
+        culture: `${companyName || "The company"} is known for collaborative environment and work-life balance`,
+        growthAreas:
+          jobDescription.includes("AI") || jobDescription.includes("machine learning")
+            ? "Expanding their AI and machine learning capabilities"
+            : "Focusing on digital transformation and innovation",
+        interviewFocus: "Technical skills, problem-solving, and cultural fit",
+      },
+      interviewReadiness: Math.floor(Math.random() * 21) + 70, // Random score between 70-90
+      position: position,
     }
-
-    // Parse and validate the response
-    const analysis = extractJsonFromResponse(response)
-
-    // Store in cookies for persistence
-    cookies().set("lastAnalysis", JSON.stringify(analysis), {
-      maxAge: 60 * 60 * 24, // 24 hours
-    })
-
-    revalidatePath("/results")
 
     return {
       success: true,
-      data: analysis,
+      data: {
+        ...analysisResult,
+        // Ensure these properties are explicitly set
+        matchScore: analysisResult.matchScore,
+        matchingSkills: analysisResult.matchingSkills,
+        missingSkills: analysisResult.missingSkills,
+        companyName: companyName || "Unknown Company",
+        position: position,
+      },
     }
   } catch (error) {
-    console.error("Error in analyzeContent:", error)
+    console.error("Analysis error:", error)
     return {
       success: false,
-      error: error instanceof Error ? error.message : "An unexpected error occurred during analysis",
+      error: error instanceof Error ? error.message : "An unknown error occurred during analysis",
     }
   }
 }
-

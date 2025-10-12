@@ -152,4 +152,3 @@ export async function getHNJobs(): Promise<any[]> {
     return cachedJobs || [] // Return cached jobs if available, empty array if not
   }
 }
-

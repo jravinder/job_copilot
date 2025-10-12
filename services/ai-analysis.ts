@@ -155,4 +155,3 @@ export async function analyzeJobMatch(
     return generateMockAnalysis(resumeText, jobDescription, companyName)
   }
 }
-
