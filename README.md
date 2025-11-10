@@ -48,19 +48,19 @@
 - API keys for **Groq AI** and **LinkedIn API** (optional)  
 
 ### **📥 Clone & Install**  
-```bash
+\`\`\`bash
 git clone https://github.com/your-username/job-copilot.git  
 cd job-copilot  
 npm install  
-```
+\`\`\`
 
 ### **🚀 Running the App Locally**  
-```bash
+\`\`\`bash
 npm run dev  # Start frontend (Vercel v0)
-```
-```bash
+\`\`\`
+\`\`\`bash
 python server.py  # Start backend (FastAPI with Groq AI)
-```
+\`\`\`
 
 ---
 
@@ -107,4 +107,4 @@ We welcome contributions! Feel free to **fork** the repo and submit PRs.
 
 🚀 **Empowering job seekers with AI. Let’s get you hired!**  
 
-```
+\`\`\`
